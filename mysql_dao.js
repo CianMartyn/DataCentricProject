@@ -8,7 +8,7 @@ pmysql.createPool({
     user: 'root',
     password: 'root',
     database: 'proj2023'
-})
+})  
 .then(p => {
     pool = p;  // Store the pool in a global variable for later use
 })
@@ -17,7 +17,7 @@ pmysql.createPool({
 });
 
 // Function to get all stores from the database
-var getStores = function () {
+function getStores () {
     return new Promise((resolve, reject) => {
         pool.query('select * from store')  // Execute a query to select all stores
             .then((data) => {
@@ -31,9 +31,9 @@ var getStores = function () {
 };
 
 // Function to edit a store's details
-var storeEdit = function (storeID, location, mgrid) {
+function storeEdit (storeID, location, mgrid) {
     var editQuery = {
-        sql: 'update store set location=?, mgrid=?, where sid=?',  // SQL query to update store
+        sql: 'update store set location=?, mgrid=? where sid=?',  // SQL query to update store
         values: [location, mgrid, storeID]  // Values to replace in query placeholders
     };
     return new Promise((resolve, reject) => {
@@ -48,7 +48,7 @@ var storeEdit = function (storeID, location, mgrid) {
 };
 
 // Function to get all products
-var getProducts = function () {
+function getProducts(id) {
     return new Promise((resolve, reject) => {
         pool.query('SELECT * FROM product INNER JOIN product_store ON product.pid = product_store.pid')  // Query to join and fetch product data
             .then((data) => {
@@ -62,26 +62,16 @@ var getProducts = function () {
 };
 
 // Function to delete a product
-var deleteProduct = function (productID) {
-    var deletionQuery = {
-        sql: 'delete from product where pid=?',
-        values: [productID]
-    };
-    if(checkProduct(productID))  // Check if the product can be deleted
-        return new Promise((resolve, reject) => {
-            pool.query(deletionQuery)
-                .then((data) => {
-                    resolve(data);  // Resolve if deletion is successful
-                })
-                .catch(error => {
-                    reject(error);  // Reject on error
-                });
+function deleteProduct(id) {
+    return new Promise((resolve, reject) => {
+        pool.query(`DELETE FROM product_store where pid="${id}"`)
+        .then((data) => {
+            resolve(data)
+        }).catch(err => {
+            reject(err)
         })
-    else
-        return new Promise((resolve, reject) => {
-            reject("Not found!");  // Reject if product check fails
-        });
-};
+    })
+}
 
 // Export the functions for use in other parts of the application
 module.exports = { getStores, storeEdit, getProducts, deleteProduct }; 

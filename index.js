@@ -131,7 +131,7 @@ app.post('/managers/add',
         } else {
             // Insert the new manager into MongoDB
             var newManager = { _id: req.body.mgrid, name: req.body.name, salary: req.body.salary };
-            mongodb_dao.addManager(newManager)
+            mongodb_dao.insertManager(newManager)
                 .then(() => {
                     // Redirect to the managers page after successful insertion
                     res.redirect("/managers");
@@ -139,7 +139,7 @@ app.post('/managers/add',
                 .catch((error) => {
                     console.log(error);
                     // Send an error message if there is an issue with insertion
-                    res.send("Error: Unable to insert manager");
+                    res.send("Error: Unable to insert manager, criteria not met");
                 });
         }
     });

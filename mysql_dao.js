@@ -16,6 +16,34 @@ pmysql.createPool({
     console.log("Pool Error: " + e);  // Log errors related to pool creation
 });
 
+
+
+// Function to get all products
+function getProducts(id) {
+    return new Promise((resolve, reject) => {
+        pool.query('SELECT * FROM product INNER JOIN product_store ON product.pid = product_store.pid')  // Query to join and fetch product data
+            .then((data) => {
+                console.log(data);
+                resolve(data);
+            })
+            .catch(error => {
+                reject(error);
+            });
+    });
+};
+
+// Function to delete a product
+function deleteProduct(id) {
+    return new Promise((resolve, reject) => {
+        pool.query(`DELETE FROM product_store where pid="${id}"`)
+        .then((data) => {
+            resolve(data)
+        }).catch(err => {
+            reject(err)
+        })
+    })
+}
+
 // Function to get all stores from the database
 function getStores () {
     return new Promise((resolve, reject) => {
@@ -46,32 +74,6 @@ function storeEdit (storeID, location, mgrid) {
             });
     });
 };
-
-// Function to get all products
-function getProducts(id) {
-    return new Promise((resolve, reject) => {
-        pool.query('SELECT * FROM product INNER JOIN product_store ON product.pid = product_store.pid')  // Query to join and fetch product data
-            .then((data) => {
-                console.log(data);
-                resolve(data);
-            })
-            .catch(error => {
-                reject(error);
-            });
-    });
-};
-
-// Function to delete a product
-function deleteProduct(id) {
-    return new Promise((resolve, reject) => {
-        pool.query(`DELETE FROM product_store where pid="${id}"`)
-        .then((data) => {
-            resolve(data)
-        }).catch(err => {
-            reject(err)
-        })
-    })
-}
 
 // Export the functions for use in other parts of the application
 module.exports = { getStores, storeEdit, getProducts, deleteProduct }; 

@@ -59,13 +59,13 @@ app.post('/stores/edit/:sid',
                 .then((data) => {
                     // Handle the response based on the result
                     if (data.affectedRows == 1)
-                        res.send("Store " + req.params.sid + " edited succesfully!");
+                        res.send("Store " + req.params.sid + " edited!");
                     else
                         res.send("Store " + req.params.sid + " not found!")
                 })
                 .catch((error) => {
                     console.log(error);
-                    res.send("Error during store update")
+                    res.send("Error")
                 });
         }
     });

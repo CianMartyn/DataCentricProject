@@ -12,8 +12,8 @@
         <% } %>
 
             <form action=<%= "/stores/edit/"+sid%> method="POST">
-                <label>ID: </label>
-                <%= sid %><br>
+                <label>SID: </label>
+                <input type="text" name="sid" value="<%= sid %>" readonly><br>
                 <label>Location: </label>
                 <input type="text" name="location"><br>
                 <label>Manager ID: </label>

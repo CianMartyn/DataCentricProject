@@ -1,0 +1,29 @@
+<body>
+
+    <h1> Add a Manager </h1>
+
+    <% if (errors !=undefined) { %>
+        <ul>
+            <% errors.forEach((error)=> { %>
+                <li>
+                    <%= error.msg %>
+                </li>
+                <% }) %>
+        </ul>   
+        <% } %>
+        
+    <li>Manager ID must be 4 numbers</li>
+    <li>Name must be > 5 characters</li>
+    <li>Salary must be between 30,000 and 70,000</li>
+
+            <form action=<%= "/managers/add/"%> method="POST">
+                <label>Manager ID: </label>
+                <input type="text" name="mgrid"><br>
+                <label>Name: </label>
+                <input type="text" name="name"><br>
+                <label>Salary: </label>
+                <input type="number" name="salary"><br>
+                <input type="submit" value="Add">
+            </form>
+            <a href="/">Home</a>
+        </body>
